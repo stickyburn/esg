@@ -2,50 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS Variables for ESG Calculator Theme */
 @layer base {
   :root {
+    /* Professional Dark Theme with Customizable Accent Colors */
+    --background: 222 26% 8%; /* #1a1a2e - dark blue-gray */
+    --foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --card: 222 26% 8%; /* #1a1a2e - dark blue-gray */
+    --card-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --popover: 222 26% 8%; /* #1a1a2e - dark blue-gray */
+    --popover-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --primary: 208 61% 29%; /* #0f4c75 - professional blue */
+    --primary-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --secondary: 220 44% 13%; /* #16213e - medium blue-gray */
+    --secondary-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --muted: 220 44% 13%; /* #16213e - medium blue-gray */
+    --muted-foreground: 215 10% 64%; /* #95a5a6 - light gray for muted text */
+    --accent: 208 61% 29%; /* #0f4c75 - professional blue */
+    --accent-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --destructive: 5 76% 55%; /* #e74c3c - danger red */
+    --destructive-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --success: 145 63% 42%; /* #2ecc71 - success green */
+    --success-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --warning: 37 91% 55%; /* #f39c12 - warning orange */
+    --warning-foreground: 220 13% 94%; /* #ecf0f1 - light gray */
+    --border: 220 44% 13%; /* #16213e - medium blue-gray */
+    --input: 220 44% 13%; /* #16213e - medium blue-gray */
+    --ring: 208 61% 29%; /* #0f4c75 - professional blue */
+    --radius: 0.5rem;
+  }
+
+  .light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
+    --primary: 208 61% 29%; /* #0f4c75 - professional blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
+    --accent: 208 61% 29%; /* #0f4c75 - professional blue */
     --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 5 76% 55%; /* #e74c3c - danger red */
     --destructive-foreground: 210 40% 98%;
+    --success: 145 63% 42%; /* #2ecc71 - success green */
+    --success-foreground: 210 40% 98%;
+    --warning: 37 91% 55%; /* #f39c12 - warning orange */
+    --warning-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    --ring: 208 61% 29%; /* #0f4c75 - professional blue */
   }
 }
 
@@ -55,5 +65,25 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', 'Roboto', sans-serif;
+  }
+}
+
+/* Custom scrollbar styling for dark theme */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent));
+    border-radius: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
   }
 }

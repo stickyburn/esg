@@ -82,11 +82,11 @@ export function useApiDelete(
 }
 
 // Specific hooks for each entity can be built using the generic ones
-// Example for Issuers
-export const useIssuers = () => useApiGet<Issuer[]>('issuers', '/issuers');
-export const useCreateIssuer = () => useApiPost<Issuer, IssuerCreate>('/issuers');
-export const useUpdateIssuer = (id: number) => useApiPut<Issuer, IssuerBase>('/issuers', id);
-export const useDeleteIssuer = () => useApiDelete('/issuers');
+// Example for Issuers (commented out to avoid compilation errors with missing types)
+// export const useIssuers = () => useApiGet<Issuer[]>('issuers', '/issuers');
+// export const useCreateIssuer = () => useApiPost<Issuer, IssuerCreate>('/issuers');
+// export const useUpdateIssuer = (id: number) => useApiPut<Issuer, IssuerBase>('/issuers', id);
+// export const useDeleteIssuer = () => useApiDelete('/issuers');
 
 // Hooks for Companies
 export const useCompanies = () => useApiGet<Company[]>('companies', '/companies');
