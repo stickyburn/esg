@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String   // Added for authentication
+  role        String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  @@map("users")
+}
+
+model Issuer {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  companies   Company[]
+  @@map("issuers")
+}
+
+model Company {
+  id          Int      @id @default(autoincrement())
+  name        String
+  logo_url    String?
+  description String?
+  issuer_id   Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  issuer      Issuer   @relation(fields: [issuer_id], references: [id], onDelete: Cascade)
+  responses   Response[]
+  reports     Report[]
+  @@map("companies")
+}
+
+model Questionnaire {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  questions   Question[]
+  scoring_configs ScoringConfig[]
+  reports     Report[]
+  @@map("questionnaires")
+}
+
+model Question {
+  id             Int      @id @default(autoincrement())
+  questionnaire_id Int
+  text           String
+  type           String   // 'multiple_choice' | 'yes_no' | 'scale' | 'text_input'
+  section        String   // 'Environmental' | 'Social' | 'Governance'
+  order          Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  questionnaire  Questionnaire @relation(fields: [questionnaire_id], references: [id], onDelete: Cascade)
+  options        QuestionOption[]
+  responses      Response[]
+  @@map("questions")
+}
+
+model QuestionOption {
+  id          Int      @id @default(autoincrement())
+  question_id Int
+  text        String
+  value       String
+  score       Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
+  @@map("question_options")
+}
+
+model Response {
+  id         Int      @id @default(autoincrement())
+  company_id Int
+  question_id Int
+  value      String
+  score      Int? // Can be null if not applicable or calculated later
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  company    Company  @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
+  @@unique([company_id, question_id])
+  @@map("responses")
+}
+
+model ScoringConfig {
+  id                 Int      @id @default(autoincrement())
+  questionnaire_id   Int
+  section            String   // 'Environmental' | 'Social' | 'Governance'
+  aggregation_method String   // 'sum' | 'average' | 'weighted_average'
+  weight             Float    // Weight for weighted_average, can be 1.0 for sum/average
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  questionnaire      Questionnaire @relation(fields: [questionnaire_id], references: [id], onDelete: Cascade)
+  @@unique([questionnaire_id, section])
+  @@map("scoring_configs")
+}
+
+model Report {
+  id               Int      @id @default(autoincrement())
+  company_id       Int
+  questionnaire_id Int
+  overall_score    Float?
+  section_scores   String?    // Storing as JSON string for flexibility: { "Environmental": number, "Social": number, "Governance": number }
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  company          Company       @relation(fields: [company_id], references: [id], onDelete: Cascade)
+  questionnaire    Questionnaire @relation(fields: [questionnaire_id], references: [id], onDelete: Cascade)
+  @@map("reports")
+}
